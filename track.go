@@ -52,7 +52,7 @@ func (s *trackStat) Render() string {
 	return str
 }
 
-func (s trackStat) AheadString() string {
+func (s *trackStat) AheadString() string {
 	if s.Ahead == 0 {
 		return "↑"
 	} else if s.Ahead > maxTrackStatCount {
@@ -62,7 +62,7 @@ func (s trackStat) AheadString() string {
 	}
 }
 
-func (s trackStat) BehindString() string {
+func (s *trackStat) BehindString() string {
 	if s.Behind == 0 {
 		return "↓"
 	} else if s.Behind > maxTrackStatCount {

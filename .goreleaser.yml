@@ -18,12 +18,12 @@ builds:
     goarch:
       - amd64
       - arm64
-      - 386
+      - "386"
       - arm
       - ppc64le
     goarm:
-      - 6
-      - 7
+      - "6"
+      - "7"
 
 archives:
   - format_overrides:

@@ -71,7 +71,7 @@ func (c *Client) Issues(owner string, name string) ([]vcs.Issue, error) {
 					Page:    page,
 					PerPage: 250,
 				},
-				State: gitlab.String("opened"),
+				State: gitlab.Ptr("opened"),
 			})
 		if err != nil {
 			return nil, err
@@ -113,7 +113,7 @@ func (c *Client) PullRequests(owner string, name string) ([]vcs.PullRequest, err
 					Page:    page,
 					PerPage: 250,
 				},
-				State: gitlab.String("opened"),
+				State: gitlab.Ptr("opened"),
 			})
 		if err != nil {
 			return nil, err

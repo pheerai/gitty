@@ -26,7 +26,7 @@ command-line. It currently supports the GitHub, GitLab, and Gitea APIs.
 ### From source
 
 Make sure you have a working Go environment (Go 1.17 or higher is required).
-See the [install instructions](http://golang.org/doc/install.html).
+See the [installation instructions](http://golang.org/doc/install.html).
 
 Compiling gitty is easy, simply run:
 
@@ -120,7 +120,7 @@ repositories:
 $ gitty --all-projects github.com
 ```
 
-Per default it will show the projects of the token owner, but you can also
+By default, it will show the projects of the token owner, but you can also
 retrieve the projects of other namespaces:
 
 ```bash

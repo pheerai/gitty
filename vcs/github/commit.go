@@ -39,7 +39,7 @@ type qlCommit struct {
 }
 
 // History returns a list of commits for the given repository.
-func (c *Client) History(repo vcs.Repo, max int, since time.Time) ([]vcs.Commit, error) {
+func (c *Client) History(repo vcs.Repo, _ int, since time.Time) ([]vcs.Commit, error) {
 	var commits []vcs.Commit //nolint
 
 	variables := map[string]interface{}{
