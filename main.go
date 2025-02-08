@@ -28,7 +28,7 @@ var (
 	minNewCommits   = flag.Int("min-new-commits", 1, "Min amount of new commits for a repo to be considered new")
 	skipStaleRepos  = flag.Bool("skip-stale-repos", true, "Skip repos without new activity")
 	withCommits     = flag.Bool("with-commits", false, "Show new commits")
-	allProjects     = flag.Bool("all-projects", false, "Retrieve information for all source repositories")
+	allProjects     = flag.Bool("all-projects", false, "Retrieve release information for all source repositories")
 	namespace       = flag.String("namespace", "", "User/organization name when using --all-projects")
 	useKeyring      = flag.Bool("use-keyring", false, "Use keyring instead of environment to retrieve token")
 	addToKeyring    = flag.Bool("add-to-keyring", false, "Store a new token in keyring")

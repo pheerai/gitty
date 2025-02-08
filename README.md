@@ -113,7 +113,7 @@ $ gitty [PATH|URL] 42
 
 ### Monitoring entire namespaces
 
-gitty also lets you monitor entire namespaces, giving you an overview of all its
+gitty also lets you monitor entire namespaces, giving you an overview of releases on all its
 repositories:
 
 ```bash
