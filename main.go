@@ -30,6 +30,8 @@ var (
 	withCommits     = flag.Bool("with-commits", false, "Show new commits")
 	allProjects     = flag.Bool("all-projects", false, "Retrieve information for all source repositories")
 	namespace       = flag.String("namespace", "", "User/organization name when using --all-projects")
+	useKeyring      = flag.Bool("use-keyring", false, "Use keyring instead of environment to retrieve token")
+	addToKeyring    = flag.Bool("add-to-keyring", false, "Store a new token in keyring")
 
 	version = flag.Bool("version", false, "display version")
 
@@ -255,6 +257,19 @@ func printVersion() {
 	fmt.Println()
 }
 
+func addKeyringToken() {
+	args := flag.Args()
+
+	if len(args) == 0 {
+		fmt.Println("Please provide the hostname of the git provider, e.g. github.com")
+		os.Exit(1)
+	}
+
+	host := args[0]
+
+	addKeyringTokenForHost(host)
+}
+
 func main() {
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage: gitty [PATH|URL] [ISSUE|PR]\n"+
@@ -269,6 +284,11 @@ func main() {
 	}
 
 	initTheme()
+
+	if *addToKeyring {
+		addKeyringToken()
+		os.Exit(0)
+	}
 
 	if *allProjects {
 		parseAllProjects()

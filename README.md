@@ -44,6 +44,16 @@ You can provide tokens for multiple hosts and services in this format:
 
 `github.com=abc123;gitlab.com=xyz890;myhost.tld=...`
 
+Alternatively, you can tell `gitty` to store a token in the system's keyring. To
+add it, issue
+
+`gitty --add-to-keyring github.com`
+
+and pass the token when asked for it. If you manually want to add an entry, you have 
+to give it the name `gitty_<host>`, e.g. `gitty_github.com` with username `gitty`.
+
+You can then tell `gitty` to use keyring entries by passing the `--use-keyring`-flag.
+
 ### GitHub
 
 You can [create a new token](https://github.com/settings/tokens/new?scopes=repo:status,public_repo,read:user,read:org&description=gitty)

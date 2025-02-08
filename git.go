@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"log"
 	"net"
 	"net/url"
 	"os"
@@ -14,6 +16,7 @@ import (
 	"github.com/muesli/gitty/vcs/gitea"
 	"github.com/muesli/gitty/vcs/github"
 	"github.com/muesli/gitty/vcs/gitlab"
+	"github.com/zalando/go-keyring"
 )
 
 const (
@@ -32,6 +35,37 @@ type Client interface {
 
 	GetUsername() (string, error)
 	IssueURL(owner string, name string, number int) string
+}
+
+func addKeyringTokenForHost(host string) {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Printf("Token to use for %s\n", host)
+	text, err := reader.ReadString('\n')
+	text = strings.TrimSpace(text)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	serviceName := fmt.Sprintf("gitty_%s", host)
+
+	err = keyring.Set(serviceName, "gitty", text)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func keyringTokenForHost(host string) string {
+	serviceName := fmt.Sprintf("gitty_%s", host)
+	secret, err := keyring.Get(serviceName, "gitty")
+
+	if err != nil {
+		log.Println("No such secret: " + serviceName)
+		log.Println("To add, use '--add-to-keyring")
+		log.Fatal(err)
+	}
+
+	return secret
 }
 
 func tokenForHost(host string) string {
@@ -68,24 +102,26 @@ func tokenForHost(host string) string {
 }
 
 func guessClient(host string) (Client, error) {
-	token := tokenForHost(host)
+	var token string
+	if *useKeyring == true {
+		token = keyringTokenForHost(host)
+	} else {
+		token = tokenForHost(host)
+	}
 	if len(token) == 0 {
 		return nil, fmt.Errorf("please set a GITTY_TOKENS env var for host " + host)
 	}
 
-	if strings.EqualFold(host, "github.com") {
+	switch {
+	case strings.EqualFold(host, "github.com"):
 		return github.NewClient(token)
-	}
-	if strings.EqualFold(host, "gitlab.com") {
+	case strings.EqualFold(host, "gitlab.com"):
 		return gitlab.NewClient(host, token, true)
-	}
-	if strings.EqualFold(host, "gitea.com") {
+	case strings.EqualFold(host, "gitea.com"):
 		return gitea.NewClient(host, token, true)
-	}
-	if strings.EqualFold(host, "codeberg.org") {
+	case strings.EqualFold(host, "codeberg.org"):
 		return gitea.NewClient(host, token, true)
-	}
-	if strings.Contains(host, "invent.kde.org") {
+	case strings.Contains(host, "invent.kde.org"):
 		return gitlab.NewClient(host, token, true)
 	}
 
