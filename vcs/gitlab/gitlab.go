@@ -9,7 +9,7 @@ import (
 
 	"github.com/muesli/gamut"
 	"github.com/muesli/gitty/vcs"
-	"github.com/xanzy/go-gitlab"
+	"gitlab.com/gitlab-org/api/client-go"
 )
 
 // Client is a client for GitLab.
